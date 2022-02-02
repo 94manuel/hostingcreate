@@ -39,4 +39,16 @@ sed 's/'curl -4 icanhazip.com' '$x'.com/i' hosts
 echo "A continuación, habilitaremos el archivo creando un enlace entre él y el directorio sites-enabled, en el cual Nginx obtiene lecturas durante el inicio"
 sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
+sudo nano /etc/init/$x.com.conf
+
+description "$x"
+env APP_PATH="ruta_donde_esta_la_app_node"
+
+start on startup
+stop on shutdown
+
+script
+  cd $APP_PATH
+  exec forever start nuestra_app.js
+end script
 
