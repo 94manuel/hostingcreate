@@ -55,6 +55,11 @@ sudo bash -c 'echo "server {
         }
 }" > /etc/nginx/sites-available/'$x''
 
+# Construir la aplicación ReactJS
+cd "$APP_PATH"
+npm install
+npm run build
+
 # Obtenemos la dirección IP y la guardamos en el archivo hosts
 IP=$(curl -4 icanhazip.com)
 echo "$IP $x" | sudo tee -a /etc/hosts
