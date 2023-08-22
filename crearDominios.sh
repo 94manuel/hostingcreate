@@ -57,10 +57,10 @@ sudo bash -c 'echo "server {
 
 # Obtenemos la dirección IP y la guardamos en el archivo hosts
 IP=$(curl -4 icanhazip.com)
-echo "$IP $x" >> /etc/hosts
+echo "$IP $x" | sudo tee -a /etc/hosts
 
-pwd >/etc/hosts
-sed -i "s/curl -4 icanhazip.com/$x/g" /etc/hosts
+sudo pwd >/etc/hosts
+sudo sed -i "s/curl -4 icanhazip.com/$x/g" /etc/hosts
 
 echo "A continuación, habilitaremos el archivo creando un enlace entre él y el directorio sites-enabled, en el cual Nginx obtiene lecturas durante el inicio"
 sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
