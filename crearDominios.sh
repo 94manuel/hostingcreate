@@ -7,9 +7,11 @@ echo "El dominio se creara con la direccion dns" $x ...
 # Ruta inicial en el escritorio del usuario
 INITIAL_PATH="$HOME/Desktop"
 
-# Solicitar al usuario seleccionar la carpeta desde el escritorio
-echo "Por favor, selecciona la carpeta de la app Node.js desde el escritorio."
-APP_PATH=$(dialog --stdout --title "Selecciona la carpeta de la app Node.js" --dselect "$INITIAL_PATH" 10 60)
+# Solicitar al usuario ingresar la carpeta desde el escritorio
+read -p "Ingresa la carpeta de la app Node.js desde el escritorio ($INITIAL_PATH/): " SELECTED_FOLDER
+
+# Combinar la ruta ingresada con la ruta inicial
+APP_PATH="$INITIAL_PATH/$SELECTED_FOLDER"
 if [ $? -ne 0 ]; then
     echo "No se seleccionó ninguna carpeta. Saliendo."
     exit 1
