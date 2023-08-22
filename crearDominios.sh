@@ -4,10 +4,20 @@ echo "Ingrese la direccion del dominio, ejemplo miempresa.com"
 read x
 echo "El dominio se creara con la direccion dns" $x ...
 
-# Solicitar al usuario seleccionar la carpeta con un cuadro de diálogo
-APP_PATH=$(zenity --file-selection --directory --title="Selecciona la carpeta de la app Node.js")
+# Ruta inicial en el escritorio del usuario
+INITIAL_PATH="$HOME/Desktop"
+
+# Solicitar al usuario seleccionar la carpeta desde el escritorio
+echo "Por favor, selecciona la carpeta de la app Node.js desde el escritorio."
+APP_PATH=$(dialog --stdout --title "Selecciona la carpeta de la app Node.js" --dselect "$INITIAL_PATH" 10 60)
 if [ $? -ne 0 ]; then
     echo "No se seleccionó ninguna carpeta. Saliendo."
+    exit 1
+fi
+
+# Verificar si la carpeta existe
+if [ ! -d "$APP_PATH" ]; then
+    echo "La carpeta no existe. Saliendo."
     exit 1
 fi
 
