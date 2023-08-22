@@ -4,6 +4,16 @@ echo "Ingrese la direccion del dominio, ejemplo miempresa.com"
 read x
 echo "El dominio se creara con la direccion dns" $x ...
 
+# Solicitar al usuario seleccionar la carpeta con un cuadro de diálogo
+APP_PATH=$(zenity --file-selection --directory --title="Selecciona la carpeta de la app Node.js")
+if [ $? -ne 0 ]; then
+    echo "No se seleccionó ninguna carpeta. Saliendo."
+    exit 1
+fi
+
+# Mostrar el contenido de la carpeta seleccionada
+ls "$APP_PATH"
+
 echo "Creando Directorio" $x ...
 sudo mkdir -p /var/www/$x/html
 
