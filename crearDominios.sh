@@ -33,22 +33,27 @@ sudo bash -c 'echo "server {
         }
 }" > /etc/nginx/sites-available/'$x''
 
+# Obtenemos la dirección IP y la guardamos en el archivo hosts
+IP=$(curl -4 icanhazip.com)
+echo "$IP $x" >> /etc/hosts
+
 pwd >/etc/hosts
-sed 's/'curl -4 icanhazip.com' '$x'.com/i' hosts
+sed -i "s/curl -4 icanhazip.com/$x/g" /etc/hosts
 
 echo "A continuación, habilitaremos el archivo creando un enlace entre él y el directorio sites-enabled, en el cual Nginx obtiene lecturas durante el inicio"
 sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-sudo nano /etc/init/$x.com.conf
-
+# Editamos el archivo de configuración para la app Node.js
+sudo nano /etc/init/$x.conf << EOL
 description "$x"
-env APP_PATH="ruta_donde_esta_la_app_node"
+env APP_PATH="$APP_PATH"
 
 start on startup
 stop on shutdown
 
 script
-  cd $APP_PATH
+  cd \$APP_PATH
   exec forever start nuestra_app.js
 end script
+EOL
 
